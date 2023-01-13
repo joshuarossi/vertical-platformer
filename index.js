@@ -18,7 +18,6 @@ const collisionBlocks = [];
 floorCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 202) {
-      console.log("draw a block");
       collisionBlocks.push(
         new CollisionBlock({
           position: { x: x * 16, y: y * 16 },
@@ -38,7 +37,6 @@ const platformCollisionBlocks = [];
 platformCollisions2D.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 202) {
-      console.log("draw a block");
       platformCollisionBlocks.push(
         new CollisionBlock({
           position: { x: x * 16, y: y * 16 },
@@ -174,7 +172,6 @@ function animate() {
 }
 animate();
 window.addEventListener("keydown", (e) => {
-  console.log(e.key);
   switch (e.key) {
     case "ArrowRight":
     case "d":

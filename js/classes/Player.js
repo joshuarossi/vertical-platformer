@@ -137,8 +137,6 @@ export class Player extends Sprite {
 
   applyGravity() {
     if (this.velocity.y >= TERMINAL_VELOCITY) {
-      console.log(`can't fall any faster`);
-      console.log(this.velocity.y, TERMINAL_VELOCITY, this.velocity.y <= TERMINAL_VELOCITY);
       this.velocity.y = TERMINAL_VELOCITY;
     } else {
       this.velocity.y += GRAVITY;
