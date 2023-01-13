@@ -1,4 +1,4 @@
-import { GRAVITY, TERMINAL_VELOCITY } from "../../../constants.js";
+import { GRAVITY, TERMINAL_VELOCITY } from "../../constants.js";
 import { collision, platformCollision } from "../util.js";
 import { Sprite } from "./Sprite.js";
 
