@@ -204,16 +204,20 @@ canvas.addEventListener("touchstart", (e) => {
   e.preventDefault();
   console.log("touch started");
   const xtouch = e.touches[0].clientX;
+  const ytouch = e.touches[0].clientY;
   if (xtouch > canvas.width / 2) {
     keys.d.pressed = true;
   }
   if (xtouch < canvas.width / 2) {
     keys.a.pressed = true;
   }
+  if (ytouch > canvas.height / 2) {
+    player1.velocity.y = JUMPSPEED;
+  }
 });
 canvas.addEventListener("touchend", (e) => {
-  console.log(e.touches);
   const xtouch = e.changedTouches[0].clientX;
+  const ytouch = e.touches[0].clientY;
   console.log(xtouch);
   e.preventDefault();
   console.log("touch ended");
