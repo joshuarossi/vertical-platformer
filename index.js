@@ -199,3 +199,35 @@ window.addEventListener("keyup", (e) => {
       break;
   }
 });
+
+canvas.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  console.log("touch started");
+  const xtouch = e.touches[0].clientX;
+  if (xtouch > canvas.width / 2) {
+    keys.d.pressed = true;
+  }
+  if (xtouch < canvas.width / 2) {
+    keys.a.pressed = true;
+  }
+});
+canvas.addEventListener("touchend", (e) => {
+  console.log(e.touches);
+  const xtouch = e.changedTouches[0].clientX;
+  console.log(xtouch);
+  e.preventDefault();
+  console.log("touch ended");
+  if (xtouch < canvas.width / 2) {
+    keys.a.pressed = false;
+  }
+  if (xtouch > canvas.width / 2) {
+    keys.d.pressed = false;
+    console.log();
+  }
+  console.log(e);
+});
+canvas.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+  console.log("touch moved");
+  console.log(e);
+});
