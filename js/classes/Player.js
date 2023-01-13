@@ -1,6 +1,7 @@
 import { GRAVITY, TERMINAL_VELOCITY } from "../../constants.js";
 import { collision, platformCollision } from "../util.js";
 import { Sprite } from "./Sprite.js";
+import { camera } from "../../index.js";
 
 export class Player extends Sprite {
   constructor({
@@ -35,6 +36,7 @@ export class Player extends Sprite {
     };
     this.animations = animations;
     this.lastDirection = "right";
+    this.cameraBox = { position: { x: this.position.x, y: this.position.y }, width: 200, height: 80 };
     for (let key in this.animations) {
       const image = new Image();
       image.src = this.animations[key].imageSrc;
@@ -56,6 +58,10 @@ export class Player extends Sprite {
   update() {
     this.updateFrames();
     this.updateHitbox();
+    this.updateCameraBox();
+
+    // this.c.fillStyle = "rgba(0, 0, 255, .2)";
+    // this.c.fillRect(this.cameraBox.position.x, this.cameraBox.position.y, this.cameraBox.width, this.cameraBox.height);
     // this.c.fillStyle = "rgba(0, 0, 255, .2)";
     // this.c.fillRect(this.position.x, this.position.y, this.width, this.height);
     // this.c.fillStyle = "rgba(255, 0, 0, .2)";
@@ -75,6 +81,58 @@ export class Player extends Sprite {
       width: 16,
       height: 27,
     };
+  }
+
+  updateCameraBox() {
+    this.cameraBox = { position: { x: this.position.x - 50, y: this.position.y }, width: 200, height: 80 };
+  }
+
+  checkforHorizontalCanvasCollision() {
+    if (
+      this.hitbox.position.x + this.hitbox.width + this.velocity.x > 576 ||
+      this.hitbox.position.x + this.velocity.x < 0
+    ) {
+      this.velocity.x = 0;
+    }
+  }
+
+  shouldPanCameraToTheLeft() {
+    const cameraBoxRightSide = this.cameraBox.position.x + this.cameraBox.width;
+    const scaledCanvasWidth = this.canvas.width / 4;
+    if (cameraBoxRightSide >= 576) {
+      return;
+    }
+    if (cameraBoxRightSide > scaledCanvasWidth + Math.abs(camera.position.x)) {
+      camera.position.x -= this.velocity.x;
+    }
+  }
+
+  shouldPanCameraToTheRight() {
+    if (this.cameraBox.position.x <= 0) {
+      return;
+    }
+    if (this.cameraBox.position.x <= Math.abs(camera.position.x)) {
+      camera.position.x -= this.velocity.x;
+    }
+  }
+
+  shouldPanCameraDown() {
+    if (this.cameraBox.position.y + this.velocity.y <= 0) {
+      return;
+    }
+    if (this.cameraBox.position.y <= Math.abs(camera.position.y)) {
+      camera.position.y -= this.velocity.y;
+    }
+  }
+
+  shouldPanCameraUp() {
+    if (this.cameraBox.position.y + this.cameraBox.height + this.velocity.y <= 0) {
+      return;
+    }
+    const scaledCanvasHeight = this.canvas.height / 4;
+    if (this.cameraBox.position.y + this.cameraBox.height >= Math.abs(camera.position.y) + scaledCanvasHeight) {
+      camera.position.y -= this.velocity.y;
+    }
   }
 
   applyGravity() {
