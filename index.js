@@ -201,37 +201,40 @@ window.addEventListener("keyup", (e) => {
 });
 
 canvas.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  console.log("touch started");
-  const xtouch = e.touches[0].clientX;
-  const ytouch = e.touches[0].clientY;
-  if (xtouch > canvas.width / 2) {
-    keys.d.pressed = true;
-  }
-  if (xtouch < canvas.width / 2) {
-    keys.a.pressed = true;
-  }
-  if (ytouch > canvas.height / 2) {
-    player1.velocity.y = JUMPSPEED;
+  try {
+    e.preventDefault();
+    console.log("touch started");
+    const xtouch = e.touches[0].clientX;
+    const ytouch = e.touches[0].clientY;
+    if (xtouch > canvas.width / 2) {
+      keys.d.pressed = true;
+    }
+    if (xtouch < canvas.width / 2) {
+      keys.a.pressed = true;
+    }
+    if (ytouch < canvas.height / 2) {
+      player1.velocity.y = JUMPSPEED;
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 canvas.addEventListener("touchend", (e) => {
-  const xtouch = e.changedTouches[0].clientX;
-  const ytouch = e.touches[0].clientY;
-  console.log(xtouch);
-  e.preventDefault();
-  console.log("touch ended");
-  if (xtouch < canvas.width / 2) {
-    keys.a.pressed = false;
+  try {
+    const xtouch = e.changedTouches[0].clientX;
+    const ytouch = e.touches[0].clientY;
+    console.log(xtouch);
+    e.preventDefault();
+    console.log("touch ended");
+    if (xtouch < canvas.width / 2) {
+      keys.a.pressed = false;
+    }
+    if (xtouch > canvas.width / 2) {
+      keys.d.pressed = false;
+      console.log();
+    }
+    console.log(e);
+  } catch (error) {
+    console.log(error);
   }
-  if (xtouch > canvas.width / 2) {
-    keys.d.pressed = false;
-    console.log();
-  }
-  console.log(e);
-});
-canvas.addEventListener("touchmove", (e) => {
-  e.preventDefault();
-  console.log("touch moved");
-  console.log(e);
 });
